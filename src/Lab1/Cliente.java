@@ -13,52 +13,43 @@ import java.net.*;
 
 public class Cliente {
 
-    public static void main(String[] args) {
-        String host = "localhost";
-        int puerto = 5000;
+    private static final String HOST = "localhost";
+    private static final int PUERTO = 5000;
+    public static void main(String[] args) throws IOException {
 
-        try (Socket socket = new Socket(host, puerto)) {
+        //Ingreso de datos por teclado
+        BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
+        
+        //SIGNO ZODIACAL
+        System.out.println("Ingrese su signo zodiacal: ");
+        String signo = teclado.readLine().trim().toUpperCase();
+
+        //FECHA
+        System.out.println("Ingrese una fecha que desee saber el clima (DD/MM/YYYY): ");
+        String fecha = teclado.readLine().trim();
+
+        //Me conecto al servidor
+        try {
+            Socket socket = new Socket(HOST, PUERTO);
             System.out.println("Conectado al servidor");
 
-            //leo lo que viene del Stream del socket
-            BufferedReader entrada = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream())
-            );
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            //Envio los datos al servidor
+            out.writeUTF(signo);
+            out.writeUTF(fecha);
+            System.out.println("Datos enviados al servidor");
 
-            //Leo lo que viene del teclado
-            BufferedReader teclado = new BufferedReader(
-                    new InputStreamReader(System.in)
-            );
+            //Recibo la respuesta del servidor
+            String respuesta = in.readUTF();
+            System.out.println("Respuesta del servidor: " + respuesta);
 
-            //Escribo en la salida del socket, el mensaje a enviar al servidor
-            PrintWriter salida = new PrintWriter(
-                    socket.getOutputStream(), //"obtiene el flujo de bytes para enviar datos por la conexión"
-                    true //auto-flush: cada println se envía inmediatamente sin quedar en el buffer
-            );
-
-//Pido mensaje por teclado constantemente                        
-            boolean salir = false;
-
-            while (!salir) { //escribiendo "salir" termina la conexión
-                System.out.print("Ingrese fecha con el formato DD-MM-YYYY. Ingrese \"Salir\" para terminar la conexión: ");
-                String mensaje = teclado.readLine();
-                
-                if (mensaje.equals("Salir")) {
-                    salir = true;
-                    salida.println(mensaje);
-                }else{
-                    if(esFechaValida(mensaje)){
-                        salida.println(mensaje);
-                    }else{
-                        System.out.println("Ingrese una entrada válida.");
-                    }
-                }
-                
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            in.close();
+            out.close();
+            socket.close();
+        } catch (UnknownHostException e) {
+            System.out.println("Host desconocido: " + HOST);
+        } 
     }
 
     public static boolean esFechaValida(String fecha) {

@@ -13,35 +13,41 @@ import java.net.*;
 
 public class Servidor {
 
+    public static final int PUERTO = 5000;
+
     public static void main(String[] args) {
-        int puerto = 5000;
 
-        try (ServerSocket serverSocket = new ServerSocket(puerto)) {
-            System.out.println("Servidor escuchando en puerto " + puerto);
+        try (ServerSocket serverSocket = new ServerSocket(PUERTO)) {
+            System.out.println("Servidor escuchando en puerto " + PUERTO);
 
-            Socket socket = serverSocket.accept(); // espera cliente
-            System.out.println("Cliente conectado");
+            while (true) {
+                //Espero a que un cliente se conecte
+                System.out.println("Esperando conexión de cliente...");
+                Socket socketClient = serverSocket.accept();
+                System.out.println("Cliente conectado desde: " + socketClient.getInetAddress());
 
-            BufferedReader entrada = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream())
-            );
-
-            PrintWriter salida = new PrintWriter(
-                    socket.getOutputStream(), true
-            );
-
-            String mensaje = entrada.readLine();
-            System.out.println("Cliente dice: " + mensaje);
-            while (!"Salir".equals(mensaje)) {
-                mensaje = entrada.readLine();
-                System.out.println("Cliente dice: " + mensaje);
+                Thread hilo = new Thread(new ManejadorCliente(socketClient));
+                hilo.start();
             }
+            /*
+            //Espero a que un cliente se conecte
 
-            salida.println("Hola cliente, recibí: " + mensaje);
+            DataInputStream in = new DataInputStream(socketClient.getInputStream());
+            DataOutputStream out = new DataOutputStream(socketClient.getOutputStream());
 
-            socket.close();
+            //Recibo los datos del cliente
+            System.out.println("Recibiendo datos del cliente...");
+            String signo = in.readUTF(); 
+            String fecha = in.readUTF();
 
-        } catch (IOException e) {
+            //Imprimo los datos recibidos y envío una respuesta al cliente
+            System.out.println("Datos recibidos: " + signo + " y " + fecha);
+            out.writeUTF("SC recibió: " + signo + " y " + fecha);
+
+            serverSocket.close();
+            */
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
