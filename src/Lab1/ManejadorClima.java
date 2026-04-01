@@ -8,12 +8,12 @@ import java.util.Random;
 public class ManejadorClima implements Runnable {
     private final Socket socket;
     private final Map<String, String> cache;
-    private final String[] predicciones;
+    private final String[] pronosticos;
 
-    public ManejadorClima(Socket socket, Map<String, String> cache, String[] predicciones) {
+    public ManejadorClima(Socket socket, Map<String, String> cache, String[] pronosticos) {
         this.socket = socket;
         this.cache = cache;
-        this.predicciones = predicciones;
+        this.pronosticos = pronosticos;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ManejadorClima implements Runnable {
 
             // Verificar cache y generar respuesta
             String respuesta = cache.computeIfAbsent(clima, c -> 
-                predicciones[new Random().nextInt(predicciones.length)]
+                pronosticos[new Random().nextInt(pronosticos.length)]
             );
 
             out.writeUTF(respuesta);
