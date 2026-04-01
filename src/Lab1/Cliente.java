@@ -10,27 +10,43 @@ package Lab1;
  */
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 
 public class Cliente {
 
-    private static final String HOST = "localhost";
-    private static final int PUERTO = 5000;
     public static void main(String[] args) throws IOException {
 
         //Ingreso de datos por teclado
         BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
         
-        //SIGNO ZODIACAL
-        System.out.println("Ingrese su signo zodiacal: ");
-        String signo = teclado.readLine().trim().toUpperCase();
+        //SIGNO ZODIACAL - pedir hasta que sea válido
+        String[] signos = new String[]{"ARIES","TAURO","GEMINIS","CANCER","LEO","VIRGO","LIBRA","ESCORPIO","SAGITARIO","CAPRICORNIO","ACUARIO","PISCIS"};
+        String signo;
+        while (true) {
+            System.out.println("Ingrese su signo zodiacal: ");
+            signo = teclado.readLine().trim().toUpperCase();
+            if (Arrays.asList(signos).contains(signo)) {
+                break;
+            } else {
+                System.out.println("Signo inválido. Signos válidos: " + String.join(", ", signos));
+            }
+        }
 
-        //FECHA
-        System.out.println("Ingrese una fecha que desee saber el clima (DD/MM/YYYY): ");
-        String fecha = teclado.readLine().trim();
+        //FECHA - pedir hasta que sea válida usando esFechaValida
+        String fecha;
+        while (true) {
+            System.out.println("Ingrese una fecha que desee saber el clima (DD-MM-YYYY): ");
+            fecha = teclado.readLine().trim();
+            if (esFechaValida(fecha)) {
+                break;
+            } else {
+                System.out.println("Fecha inválida. Formato esperado: DD-MM-YYYY");
+            }
+        }
 
         //Me conecto al servidor
         try {
-            Socket socket = new Socket(HOST, PUERTO);
+            Socket socket = new Socket(Config.HOST, Config.GATEWAY_PORT);
             System.out.println("Conectado al servidor");
 
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -48,7 +64,7 @@ public class Cliente {
             out.close();
             socket.close();
         } catch (UnknownHostException e) {
-            System.out.println("Host desconocido: " + HOST);
+            System.out.println("Host desconocido: " + Config.HOST);
         } 
     }
 
