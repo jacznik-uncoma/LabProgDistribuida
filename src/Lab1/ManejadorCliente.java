@@ -2,9 +2,9 @@ package Lab1;
 
 import java.io.*;
 import java.net.*;
+
 public class ManejadorCliente implements Runnable {
     private Socket socketCliente;
-    
 
     public ManejadorCliente(Socket socket) {
         this.socketCliente = socket;
@@ -13,27 +13,26 @@ public class ManejadorCliente implements Runnable {
     @Override
     public void run() {
         try (DataInputStream in = new DataInputStream(socketCliente.getInputStream());
-             DataOutputStream out = new DataOutputStream(socketCliente.getOutputStream())) {
+                DataOutputStream out = new DataOutputStream(socketCliente.getOutputStream())) {
             // Leer datos del cliente
-            String signo = in.readUTF(); 
+            String signo = in.readUTF();
             String fecha = in.readUTF();
             System.out.println("Consulta recibida: " + signo + " | " + fecha);
 
-            //Consultar a los servidores correspondientes (SH y SP)
+            // Consultar a los servidores correspondientes (SH y SP)
             String prediccionH = consultarHoroscopo(signo);
             String pronosticoC = consultarClima(fecha);
 
-            //Enviar respuesta al cliente
+            // Enviar respuesta al cliente
             out.writeUTF("Horóscopo: " + prediccionH + " | Clima: " + pronosticoC);
             out.flush();
-            in.close();
-            out.close(); 
 
         } catch (IOException e) {
             System.err.println("Error procesando cliente: " + e.getMessage());
         } finally {
             try {
-                if (socketCliente != null) socketCliente.close();
+                if (socketCliente != null)
+                    socketCliente.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -42,18 +41,14 @@ public class ManejadorCliente implements Runnable {
 
     // Conexión al Servidor de Horóscopo (SH) y al Servidor del Clima (SP)
     private String consultarHoroscopo(String signo) {
-        try 
-            (Socket socketSH = new Socket(Config.HOST, Config.HOROSCOPE_PORT);
-            DataOutputStream outSH = new DataOutputStream(socketSH.getOutputStream());
-            DataInputStream inSH = new DataInputStream(socketSH.getInputStream());) {
+        try (
+                Socket socketSH = new Socket(Config.HOST, Config.HOROSCOPE_PORT);
+                DataOutputStream outSH = new DataOutputStream(socketSH.getOutputStream());
+                DataInputStream inSH = new DataInputStream(socketSH.getInputStream());) {
 
             outSH.writeUTF(signo);
-            String respuestaSH = inSH.readUTF();
+            return inSH.readUTF();
 
-            inSH.close();
-            outSH.close();
-            socketSH.close();
-            return respuestaSH;
         } catch (IOException e) {
             e.printStackTrace();
             return "Error consultando horóscopo";
@@ -62,17 +57,13 @@ public class ManejadorCliente implements Runnable {
 
     private String consultarClima(String fecha) {
         try (
-            Socket socketSP = new Socket(Config.HOST, Config.CLIMATE_PORT);
-            DataOutputStream outSP = new DataOutputStream(socketSP.getOutputStream());
-            DataInputStream inSP = new DataInputStream(socketSP.getInputStream());) {
+                Socket socketSP = new Socket(Config.HOST, Config.CLIMATE_PORT);
+                DataOutputStream outSP = new DataOutputStream(socketSP.getOutputStream());
+                DataInputStream inSP = new DataInputStream(socketSP.getInputStream());) {
 
             outSP.writeUTF(fecha);
-            String respuestaSP = inSP.readUTF();
+            return inSP.readUTF();
 
-            inSP.close();
-            outSP.close();
-            socketSP.close();
-            return respuestaSP;
         } catch (IOException e) {
             e.printStackTrace();
             return "Error consultando clima";
