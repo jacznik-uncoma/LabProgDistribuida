@@ -12,9 +12,8 @@ public class ManejadorCliente implements Runnable {
 
     @Override
     public void run() {
-        try {
-            DataInputStream in = new DataInputStream(socketCliente.getInputStream());
-            DataOutputStream out = new DataOutputStream(socketCliente.getOutputStream());
+        try (DataInputStream in = new DataInputStream(socketCliente.getInputStream());
+             DataOutputStream out = new DataOutputStream(socketCliente.getOutputStream())) {
             // Leer datos del cliente
             String signo = in.readUTF(); 
             String fecha = in.readUTF();
@@ -43,10 +42,10 @@ public class ManejadorCliente implements Runnable {
 
     // Conexión al Servidor de Horóscopo (SH) y al Servidor del Clima (SP)
     private String consultarHoroscopo(String signo) {
-        try {
-            Socket socketSH = new Socket(Config.HOST, Config.HOROSCOPE_PORT);
+        try 
+            (Socket socketSH = new Socket(Config.HOST, Config.HOROSCOPE_PORT);
             DataOutputStream outSH = new DataOutputStream(socketSH.getOutputStream());
-            DataInputStream inSH = new DataInputStream(socketSH.getInputStream());
+            DataInputStream inSH = new DataInputStream(socketSH.getInputStream());) {
 
             outSH.writeUTF(signo);
             String respuestaSH = inSH.readUTF();
@@ -62,10 +61,10 @@ public class ManejadorCliente implements Runnable {
     }
 
     private String consultarClima(String fecha) {
-        try {
+        try (
             Socket socketSP = new Socket(Config.HOST, Config.CLIMATE_PORT);
             DataOutputStream outSP = new DataOutputStream(socketSP.getOutputStream());
-            DataInputStream inSP = new DataInputStream(socketSP.getInputStream());
+            DataInputStream inSP = new DataInputStream(socketSP.getInputStream());) {
 
             outSP.writeUTF(fecha);
             String respuestaSP = inSP.readUTF();

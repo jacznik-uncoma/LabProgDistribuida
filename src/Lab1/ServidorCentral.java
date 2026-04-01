@@ -14,7 +14,7 @@ public class ServidorCentral {
                 System.out.println("Esperando conexión de cliente...");
                 Socket socketClient = serverSocket.accept();
                 System.out.println("Cliente conectado desde: " + socketClient.getInetAddress());
-
+                //Manejo cada cliente en un hilo separado
                 Thread hilo = new Thread(new ManejadorCliente(socketClient));
                 hilo.start();
             }
