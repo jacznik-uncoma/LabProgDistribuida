@@ -9,6 +9,8 @@ public class ManejadorClima implements Runnable {
     private final Socket socket;
     private final Map<String, String> cache;
     private final String[] pronosticos;
+    private DataInputStream in;
+    private DataOutputStream out;
 
     public ManejadorClima(Socket socket, Map<String, String> cache, String[] pronosticos) {
         this.socket = socket;
@@ -18,8 +20,9 @@ public class ManejadorClima implements Runnable {
 
     @Override
     public void run() {
-        try (DataInputStream in = new DataInputStream(socket.getInputStream());
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+        try {
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
 
             String clima = in.readUTF();
             if (clima == null) clima = "DESCONOCIDO";
@@ -38,6 +41,16 @@ public class ManejadorClima implements Runnable {
         } catch (IOException e) {
             System.err.println("[SH] Error con un cliente: " + e.getMessage());
         } finally {
+            try {
+                if (in != null) in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (out != null) out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 if (!socket.isClosed()) socket.close();
             } catch (IOException e) {

@@ -7,6 +7,9 @@ public class ConsultaCliente implements Runnable {
     private final int id;
     private final String signo;
     private final String fecha;
+    private Socket socket;
+    private DataOutputStream out;
+    private DataInputStream in;
 
     public ConsultaCliente(int id, String signo, String fecha) {
         this.id = id;
@@ -16,9 +19,10 @@ public class ConsultaCliente implements Runnable {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket(Config.HOST, Config.GATEWAY_PORT);
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            DataInputStream in = new DataInputStream(socket.getInputStream())) {
+        try {
+            socket = new Socket(Config.HOST, Config.GATEWAY_PORT);
+            out = new DataOutputStream(socket.getOutputStream());
+            in = new DataInputStream(socket.getInputStream());
 
             System.out.println("[Cliente " + id + "] Conectado. Enviando: " + signo + " para la fecha " + fecha);
 
@@ -36,6 +40,22 @@ public class ConsultaCliente implements Runnable {
             System.err.println("[Cliente " + id + "] Error: Host no encontrado (" + Config.HOST + ")");
         } catch (IOException e) {
             System.err.println("[Cliente " + id + "] Error de E/S: " + e.getMessage());
+        } finally {
+            try {
+                if (in != null) in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (out != null) out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (socket != null && !socket.isClosed()) socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
