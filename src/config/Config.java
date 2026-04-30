@@ -21,7 +21,7 @@ public final class Config {
         Properties p = new Properties();
 
         // Cargar sólo desde el working directory (config.properties)
-        try (InputStream in = new FileInputStream("config.properties")) {
+        try (InputStream in = new FileInputStream("config/config.properties")) {
             p.load(in);
         } catch (IOException e) {
             throw new RuntimeException("No se encontró 'config.properties' en el directorio de ejecución.", e);
