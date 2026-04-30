@@ -9,7 +9,7 @@ public class ClimaServer {
     };
 
     public static void main(String[] args) {
-        System.setProperty("java.rmi.server.hostname", Config.HOST);
+        System.setProperty("java.rmi.server.hostname", Config.CLIMATE_HOST);
         
         try {
             Registry registry = LocateRegistry.createRegistry(Config.CLIMATE_PORT);
@@ -18,7 +18,7 @@ public class ClimaServer {
 
             registry.rebind("Clima", op);
 
-            System.out.println("Servidor Clima registrado en " + Config.HOST + ":" + Config.CLIMATE_PORT + " como 'Clima'");
+            System.out.println("Servidor Clima registrado en " + Config.CLIMATE_HOST + ":" + Config.CLIMATE_PORT + " como 'Clima'");
         } catch (Exception e) {
             System.err.println("Error arrancando ClimaServer:");
             e.printStackTrace();

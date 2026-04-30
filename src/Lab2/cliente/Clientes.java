@@ -15,7 +15,7 @@ public class Clientes {
             
             Thread hiloCliente = new Thread(() -> {
                 try {
-                    Registry registry = LocateRegistry.getRegistry(Config.HOST, Config.GATEWAY_PORT);
+                    Registry registry = LocateRegistry.getRegistry(Config.CENTRAL_HOST, Config.GATEWAY_PORT);
                     ICentral central = (ICentral) registry.lookup("Central");
 
                     String signo = (idCliente % 2 == 0) ? "Leo" : "Aries"; 

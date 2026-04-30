@@ -85,7 +85,7 @@ public class CentralServer extends UnicastRemoteObject implements ICentral {
     }
 
     public static void main(String[] args) {
-        System.setProperty("java.rmi.server.hostname", Config.HOST);
+        System.setProperty("java.rmi.server.hostname", Config.CENTRAL_HOST);
         
         try {
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
@@ -97,11 +97,11 @@ public class CentralServer extends UnicastRemoteObject implements ICentral {
             while (oh == null || op == null) {
                 try {
                     if (oh == null) {
-                        Registry horoscopoRegistry = LocateRegistry.getRegistry(Config.HOST, Config.HOROSCOPE_PORT);
+                        Registry horoscopoRegistry = LocateRegistry.getRegistry(Config.HOROSCOPE_HOST, Config.HOROSCOPE_PORT);
                         oh = (IPredecible) horoscopoRegistry.lookup("Horoscopo");
                     }
                     if (op == null) {
-                        Registry climaRegistry = LocateRegistry.getRegistry(Config.HOST, Config.CLIMATE_PORT);
+                        Registry climaRegistry = LocateRegistry.getRegistry(Config.CLIMATE_HOST, Config.CLIMATE_PORT);
                         op = (IPredecible) climaRegistry.lookup("Clima");
                     }
                 } catch (Exception e) {

@@ -8,7 +8,7 @@ public class ClienteRMI {
     public static void main(String[] args) {
         try {
             // Nos conectamos al registro RMI del gateway central
-            Registry registry = LocateRegistry.getRegistry(Config.HOST, Config.GATEWAY_PORT);
+            Registry registry = LocateRegistry.getRegistry(Config.CENTRAL_HOST, Config.GATEWAY_PORT);
             ICentral central = (ICentral) registry.lookup("Central");
 
             // Prueba 1: Petición original

@@ -9,7 +9,7 @@ public class HoroscopoServer {
     };
 
     public static void main(String[] args) {
-        System.setProperty("java.rmi.server.hostname", Config.HOST);
+        System.setProperty("java.rmi.server.hostname", Config.HOROSCOPE_HOST);
         
         try {
             Registry registry = LocateRegistry.createRegistry(Config.HOROSCOPE_PORT);
@@ -18,7 +18,7 @@ public class HoroscopoServer {
 
             registry.rebind("Horoscopo", oh);
 
-            System.out.println("Servidor Horoscopo registrado en " + Config.HOST + ":" + Config.HOROSCOPE_PORT + " como 'Horoscopo'");
+            System.out.println("Servidor Horoscopo registrado en " + Config.HOROSCOPE_HOST + ":" + Config.HOROSCOPE_PORT + " como 'Horoscopo'");
         } catch (Exception e) {
             System.err.println("Error arrancando HoroscopoServer:");
             e.printStackTrace();
