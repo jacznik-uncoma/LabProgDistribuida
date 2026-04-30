@@ -1,8 +1,6 @@
-package rmi.cliente;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import rmi.interfaces.ICentral;
+//import config.Config;
 
 public class Clientes {
     public static void main(String[] args) {
@@ -15,7 +13,7 @@ public class Clientes {
             
             Thread hiloCliente = new Thread(() -> {
                 try {
-                    Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+                    Registry registry = LocateRegistry.getRegistry(Config.HOST, Config.GATEWAY_PORT);
                     ICentral central = (ICentral) registry.lookup("Central");
 
                     String signo = (idCliente % 2 == 0) ? "Leo" : "Aries"; 

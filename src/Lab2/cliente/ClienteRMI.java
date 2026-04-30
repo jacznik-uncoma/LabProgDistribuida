@@ -1,14 +1,12 @@
-package rmi.cliente;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import rmi.interfaces.ICentral;
+//import config.Config;
 
 public class ClienteRMI {
     public static void main(String[] args) {
         try {
-            // Nos conectamos al registro RMI
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            // Nos conectamos al registro RMI del gateway central
+            Registry registry = LocateRegistry.getRegistry(Config.HOST, Config.GATEWAY_PORT);
             ICentral central = (ICentral) registry.lookup("Central");
 
             // Prueba 1: Petición original
