@@ -20,7 +20,7 @@ public class ConsultaCliente implements Runnable {
     @Override
     public void run() {
         try {
-            socket = new Socket(Config.HOST, Config.GATEWAY_PORT);
+            socket = new Socket(Config.CENTRAL_HOST, Config.GATEWAY_PORT);
             out = new DataOutputStream(socket.getOutputStream());
             in = new DataInputStream(socket.getInputStream());
 
@@ -37,7 +37,7 @@ public class ConsultaCliente implements Runnable {
             System.out.println("[Cliente " + id + "] RESPUESTA RECIBIDA: " + respuesta);
 
         } catch (UnknownHostException e) {
-            System.err.println("[Cliente " + id + "] Error: Host no encontrado (" + Config.HOST + ")");
+            System.err.println("[Cliente " + id + "] Error: Host no encontrado (" + Config.CENTRAL_HOST + ")");
         } catch (IOException e) {
             System.err.println("[Cliente " + id + "] Error de E/S: " + e.getMessage());
         } finally {
