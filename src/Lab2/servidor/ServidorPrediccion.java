@@ -1,6 +1,8 @@
+package Lab2.servidor;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.Random;
+import Lab2.interfaces.IPredecible;
 
 public class ServidorPrediccion extends UnicastRemoteObject implements IPredecible {
     private String[] predicciones;

@@ -1,3 +1,4 @@
+package Lab2.servidor;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -9,7 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-//import config.Config;
+import config.Config;
+import Lab2.interfaces.ICentral;
+import Lab2.interfaces.IPredecible;
 
 public class CentralServer extends UnicastRemoteObject implements ICentral {
 

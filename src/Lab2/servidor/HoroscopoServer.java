@@ -1,6 +1,7 @@
+package Lab2.servidor;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-//import config.Config;
+import config.Config;
 
 public class HoroscopoServer {
     public static String[] PREDICCIONES = new String[]{

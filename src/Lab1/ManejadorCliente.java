@@ -2,6 +2,7 @@ package Lab1;
 
 import java.io.*;
 import java.net.*;
+import config.Config;
 
 public class ManejadorCliente implements Runnable {
     private Socket socketCliente;

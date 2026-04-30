@@ -1,6 +1,8 @@
+package Lab2.cliente;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-//import config.Config;
+import config.Config;
+import Lab2.interfaces.ICentral;
 
 public class Clientes {
     public static void main(String[] args) {

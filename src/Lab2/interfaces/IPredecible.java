@@ -1,3 +1,4 @@
+package Lab2.interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

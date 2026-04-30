@@ -1,5 +1,5 @@
 package Lab1;
-
+import config.Config;
 import java.io.*;
 import java.net.*;
 import java.util.Map;
