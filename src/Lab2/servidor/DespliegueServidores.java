@@ -1,5 +1,3 @@
-package rmi.servidor;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 

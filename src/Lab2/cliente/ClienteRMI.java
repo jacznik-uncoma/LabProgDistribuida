@@ -1,8 +1,5 @@
-package rmi.cliente;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import rmi.interfaces.ICentral;
 
 public class ClienteRMI {
     public static void main(String[] args) {

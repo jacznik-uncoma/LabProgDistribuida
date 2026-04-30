@@ -1,13 +1,9 @@
-package rmi.servidor;
-
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import rmi.interfaces.ICentral;
-import rmi.interfaces.IPredecible;
 
 public class ObjetoCentral extends UnicastRemoteObject implements ICentral {
     private IPredecible oh;
@@ -32,6 +28,7 @@ public class ObjetoCentral extends UnicastRemoteObject implements ICentral {
     @Override
     public String consultaGeneral(String signo, String fecha) throws RemoteException {  
         // Validar Signo
+        System.out.println("[DEBUG RMI] Atendiendo a un cliente en el hilo: " + Thread.currentThread().getName());
         if (signo == null || !SIGNOS_VALIDOS.contains(signo.toLowerCase())) {
             throw new IllegalArgumentException("ERROR: El signo zodiacal '" + signo + "' no es válido.");
         }
