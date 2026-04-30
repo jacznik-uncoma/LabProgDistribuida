@@ -1,5 +1,8 @@
+package Lab2.cliente;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import config.Config;
+import Lab2.interfaces.ICentral;
 
 public class Clientes {
     public static void main(String[] args) {
@@ -12,7 +15,7 @@ public class Clientes {
             
             Thread hiloCliente = new Thread(() -> {
                 try {
-                    Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+                    Registry registry = LocateRegistry.getRegistry(Config.CENTRAL_HOST, Config.GATEWAY_PORT);
                     ICentral central = (ICentral) registry.lookup("Central");
 
                     String signo = (idCliente % 2 == 0) ? "Leo" : "Aries"; 

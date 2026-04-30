@@ -2,6 +2,7 @@ package Lab1;
 
 import java.io.*;
 import java.net.*;
+import config.Config;
 
 public class ManejadorCliente implements Runnable {
     private Socket socketCliente;
@@ -65,7 +66,7 @@ public class ManejadorCliente implements Runnable {
     // Conexión al Servidor de Horóscopo (SH) y al Servidor del Clima (SP)
     private String consultarHoroscopo(String signo) {
         try {
-            socketSH = new Socket(Config.HOST, Config.HOROSCOPE_PORT);
+            socketSH = new Socket(Config.HOROSCOPE_HOST, Config.HOROSCOPE_PORT);
             outSH = new DataOutputStream(socketSH.getOutputStream());
             inSH = new DataInputStream(socketSH.getInputStream());
 
@@ -99,7 +100,7 @@ public class ManejadorCliente implements Runnable {
 
     private String consultarClima(String fecha) {
         try {
-            socketSP = new Socket(Config.HOST, Config.CLIMATE_PORT);
+            socketSP = new Socket(Config.CLIMATE_HOST, Config.CLIMATE_PORT);
             outSP = new DataOutputStream(socketSP.getOutputStream());
             inSP = new DataInputStream(socketSP.getInputStream());
 

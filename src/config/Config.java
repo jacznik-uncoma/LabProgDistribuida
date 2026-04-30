@@ -1,5 +1,4 @@
-package Lab1;
-
+package config;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +12,9 @@ import java.util.Properties;
 public final class Config {
     private Config() {}
 
-    public static final String HOST;
+    public static final String CENTRAL_HOST;
+    public static final String HOROSCOPE_HOST;
+    public static final String CLIMATE_HOST;
     public static final int GATEWAY_PORT;
     public static final int HOROSCOPE_PORT;
     public static final int CLIMATE_PORT;
@@ -22,13 +23,16 @@ public final class Config {
         Properties p = new Properties();
 
         // Cargar sólo desde el working directory (config.properties)
-        try (InputStream in = new FileInputStream("config.properties")) {
+        try (InputStream in = new FileInputStream("config/config.properties")) {
             p.load(in);
         } catch (IOException e) {
             throw new RuntimeException("No se encontró 'config.properties' en el directorio de ejecución.", e);
         }
 
-        HOST = require(p, "host");
+        CENTRAL_HOST = require(p, "central.host");
+        HOROSCOPE_HOST = require(p, "horoscope.host");
+        CLIMATE_HOST = require(p, "climate.host");
+        
         GATEWAY_PORT = parseInt(require(p, "gateway.port"), "gateway.port");
         HOROSCOPE_PORT = parseInt(require(p, "horoscope.port"), "horoscope.port");
         CLIMATE_PORT = parseInt(require(p, "climate.port"), "climate.port");

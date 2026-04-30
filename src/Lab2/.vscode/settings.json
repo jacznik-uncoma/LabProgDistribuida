@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "Ejemplo1/Servidor",
+        "Ejemplo1/Cliente",
+        "servidor"
+    ]
+}
